@@ -1,31 +1,43 @@
-document.addEventListener("DOMContentLoaded",function(){
-    const addButton =document.getElementById("add-task-btn");
-    const taskInput=document.getElementById("task-input");
-    const taskList=document.getElementById("task-list")
+document.addEventListener("DOMContentLoaded", function () {
+    const addButton = document.getElementById("add-task-btn");
+    const taskInput = document.getElementById("task-input");
+    const taskList = document.getElementById("task-list")
 
-     function addTask(){
-        let taskText= taskInput.value.trim() ;
+    function addTask() {
+        let taskText = taskInput.value.trim();
 
         //if the user add a task
-        if (!taskText ===""){
-            let list = document.createElement("li");
-            list.textContent=taskText
+        if (taskText !== "") {
+            const list = document.createElement("li");
+            list.textContent = taskText
 
-            let removeBtn =Document.createElement("button")
-            removeBtn.textContent="Remove"
-            removeBtn.classList.add("remove-btn")
+            const removeBtn = Document.createElement("button")
+            removeBtn.textContent = "Remove"
+            removeBtn.className.add("remove-btn")
 
-            remove.Document.addEventListener("onclick", function(e){
-                if (e.target.className == "remove-btn") {
-                    const li=e.target.parentElement;
-                    remove.removeChild(li);
+            //remove a task
+            removeBtn.onclick = function () {
+                taskList.removeChild(li);
+            }
+
+            // add a task
+            li.appendChild(removeBtn)
+            taskList.appendChild(li);
+            taskInput.value = ""
+
+            addButton.addEventListener("click",addTask);
+            taskInput.addEventListener("keypress",function(event){
+                if (event.key =="Enter") {
+                    addTask();
                 }
             })
 
-        }else{
+
+        } else {
             alert("Please enter a task")
         }
 
     }
 
+    document.addEventListener("DOMContentLoaded",addTask())
 })
