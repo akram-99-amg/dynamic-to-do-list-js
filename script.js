@@ -3,9 +3,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskInput = document.getElementById("task-input");
     const taskList = document.getElementById("task-list")
 
-    function addTask() {
-        const taskText = taskInput.value.trim();
 
+    function loadTasks() {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        storedTasks.forEach(taskText => addTask(taskText, false));
+    }
+        function addTask(taskText, save = true) {
+            const taskText = taskInput.value.trim();
+            if (save) {
+                const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+                storedTasks.push(taskText);
+                localStorage.setItem('tasks', JSON.stringify(storedTasks));
+            }
+        
         //if the user add a task
         if (taskText !== "") {
             const li = document.createElement("li");
@@ -25,18 +35,23 @@ document.addEventListener("DOMContentLoaded", function () {
             taskList.appendChild(li);
             taskInput.value = ""
 
-        } 
+        }
         else {
             alert("Please enter a task")
         }
 
-        addButton.addEventListener("click",addTask);
-        taskInput.addEventListener("keypress",function(event){
-            if (event.key ==="Enter") {
+        addButton.addEventListener("click", addTask);
+        taskInput.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
                 addTask();
             }
         })
     }
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTasks();
 
-    document.addEventListener("DOMContentLoaded",addTask())
+    });
+    document.addEventListener("DOMContentLoaded", addTask())
+    document.addEventListener("DOMContentLoaded", loadTasks())
 })
+
